@@ -30,23 +30,23 @@ class Family:
             "last_name": "Doe",
             "age":"33 Years Old",
             "gender": "Male",
-            "lucky_numbers": 7, 13, 22
-        }
+            "lucky_numbers": [7, 13, 22]
+        },
         {
             "id": self._generateId(),
             "first_name": "Jane",
             "last_name": "Doe",
             "age":"35 Years Old",
             "gender": "Female",
-            "lucky_numbers": 10, 14, 3
-        }
+            "lucky_numbers": [10, 14, 3]
+        },
         {
             "id": self._generateId(),
             "first_name": "Jimmy",
             "last_name": "Doe",
             "age":"5 Years Old",
             "gender": "Male",
-            "lucky_numbers": 1
+            "lucky_numbers": [1]
         }]
 
     # read-only: Use this method to generate random members ID's when adding members into the list
@@ -69,12 +69,18 @@ class Family:
         pass
 
     def get_member(self, id):
+        for self.id in doe_family:
+            if self.id = id:
+                print self
+
         ## you have to implement this method
         ## loop all the members and return the one with the given id
         pass
 
     def get_all_members(self):
         return self._members
+
+doe_family = Family("Doe")
 
 # Handle/serialize errors like a JSON object
 @app.errorhandler(APIException)
@@ -97,12 +103,15 @@ def handle_hello():
 
     return jsonify(response_body), 200
 
-@app.route('/family', methods=['POST', 'GET'])
-def handle_family():
+@app.route('/family')
+def handle_all():
 
-    response_body={
+    return jsonify(doe_family.get_all_members())
 
-    }
+@app.route('/family/<int:doe_family.id>')
+def handle_single():
+
+    return jsonify(doe_family.getmember())
 # this only runs if `$ python src/main.py` is executed
 if __name__ == '__main__':
     PORT = int(os.environ.get('PORT', 3000))
