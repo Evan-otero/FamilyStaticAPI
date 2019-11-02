@@ -2,6 +2,7 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 import os
+import random
 from flask import Flask, request, jsonify, url_for
 from flask_migrate import Migrate
 from flask_swagger import swagger
@@ -25,12 +26,32 @@ class Family:
         # example list of members
         self._members = [{
             "id": self._generateId(),
-            "first_name": "John"
+            "first_name": "John",
+            "last_name": "Doe",
+            "age":"33 Years Old",
+            "gender": "Male",
+            "lucky_numbers": 7, 13, 22
+        }
+        {
+            "id": self._generateId(),
+            "first_name": "Jane",
+            "last_name": "Doe",
+            "age":"35 Years Old",
+            "gender": "Female",
+            "lucky_numbers": 10, 14, 3
+        }
+        {
+            "id": self._generateId(),
+            "first_name": "Jimmy",
+            "last_name": "Doe",
+            "age":"5 Years Old",
+            "gender": "Male",
+            "lucky_numbers": 1
         }]
 
     # read-only: Use this method to generate random members ID's when adding members into the list
     def _generateId(self):
-        return randint(0, 99999999)
+        return random.randint(0, 99999999)
 
     def add_member(self, member):
         ## you have to implement this method
@@ -52,13 +73,15 @@ class Family:
         ## loop all the members and return the one with the given id
         pass
 
-    def get_all_members(self, id):
+    def get_all_members(self):
         return self._members
 
 # Handle/serialize errors like a JSON object
 @app.errorhandler(APIException)
 def handle_invalid_usage(error):
     return jsonify(error.to_dict()), error.status_code
+
+
 
 # generate sitemap with all your endpoints
 @app.route('/')
@@ -74,6 +97,12 @@ def handle_hello():
 
     return jsonify(response_body), 200
 
+@app.route('/family', methods=['POST', 'GET'])
+def handle_family():
+
+    response_body={
+
+    }
 # this only runs if `$ python src/main.py` is executed
 if __name__ == '__main__':
     PORT = int(os.environ.get('PORT', 3000))
